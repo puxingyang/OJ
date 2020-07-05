@@ -1,4 +1,4 @@
-package Homework.src.OJ;
+package OJ;
 
 import java.util.Scanner;
 
