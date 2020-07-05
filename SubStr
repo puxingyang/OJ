@@ -1,0 +1,15 @@
+package OJ;
+
+public class SubStr {
+
+    public boolean[] chkSubStr(String[] p, int n, String s) {
+        boolean bl[] = new boolean[p.length];
+        if(p.length > 500 || s.length() > 1000){
+            return bl;
+        }
+        for(int i=0; i<n; i++){
+            bl[i] = s.contains(p[i]);
+        }
+        return bl;
+    }
+}
