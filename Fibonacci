@@ -1,0 +1,24 @@
+import java.util.Scanner;
+
+public class Fibonacci {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        if (n < 4) {
+            System.out.println(0);
+            return;
+        }
+        int i = 0;
+        int j = 1;
+        int sum = i + j;
+        while ((i + j) < n) {
+            sum = i + j;
+            i = j;
+            j = sum;
+        }
+        sum = i + j;
+        System.out.println(Math.min(sum-n,n-j));
+    }
+}
+
