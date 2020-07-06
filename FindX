@@ -1,0 +1,38 @@
+import java.util.Scanner;
+
+/**
+ * 输入一个数n，然后输入n个数值各不相同，再输入一个值x，输出这个值在这个数组中的下标
+ * （从0开始，若不在数组中则输出-1）。
+ * 输入描述:
+ * 测试数据有多组，输入n(1<=n<=200)，接着输入n个数，然后输入x。
+ * 输出描述:
+ * 对于每组输入,请输出结果。
+ */
+public class FindX {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        while(sc.hasNext()){
+            int n = sc.nextInt();
+            if(n < 1 || n > 200){
+                continue;
+            }
+            int[]arr = new int[n];
+            for(int i=0; i<n; i++){
+                arr[i] = sc.nextInt();
+            }
+            int x = sc.nextInt();
+            System.out.println(findX(x,arr));
+        }
+    }
+
+    public static int findX(int x,int[]arr){
+        for(int i=0; i<arr.length; i++){
+            if(x == arr[i]){
+                return i;
+            }
+        }
+        return -1;
+    }
+}
+
