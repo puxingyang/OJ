@@ -1,0 +1,61 @@
+/**
+ * 输入一个字符串，然后对每个字符进行奇校验，最后输出校验后的二进制数(如’3’，输出：10110011)。
+ * 输入描述：
+ *
+ * 输入包括一个字符串，字符串长度不超过100。
+ *
+ * 输出描述：
+ *
+ * 可能有多组测试数据，对于每组数据，
+ * 对于字符串中的每一个字符，输出按题目进行奇偶校验后的数，每个字符校验的结果占一行。
+ *
+ * 输入：
+ *
+ * 3
+ * 3a
+ *
+ * 输出：
+ *
+ * 10110011
+ * 10110011
+ * 01100001
+ */
+
+
+import java.util.Scanner;
+
+public class ParityCheck {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        while (sc.hasNext()) {
+            String str = sc.next();
+            oddCheck(str.toCharArray());
+        }
+    }
+
+    public static void oddCheck(char[] arrs) {
+        int[] result = new int[8];    // 保存二进制序列
+        for (int i = 0; i < arrs.length; i++) {
+            int one = 0x01;
+            int count = 0;    // 保留二进制序列中1的个数
+            // 得到其二进制序列
+            int index = 7;
+            while (index > 0) {
+                result[index] = ((arrs[i] & one) == 0) ? 0 : 1;
+                if (result[index] == 1)
+                    count++;
+                one <<= 1;
+                index--;
+            }
+            // 偶数个1，高位为1；奇数个1，高位为0
+            result[0] = (count % 2 == 1) ? 0 : 1;
+            // 输出
+            for (int k = 0; k < 8; k++) {
+                System.out.print(result[k]);
+            }
+            System.out.println();
+        }
+    }
+}
+
