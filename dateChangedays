@@ -1,0 +1,69 @@
+/**
+ * 题目描述：
+ *
+ * 根据输入的日期，计算是这一年的第几天。
+ *
+ * 输入描述：
+ *
+ * 输入三行，分别是年，月，日
+ *
+ * 输出描述：
+ *
+ * 成功:返回outDay输出计算后的第几天;
+ *
+ * 失败:返回-1
+ */
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class dateChangedays {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        while(sc.hasNext()){
+            int year = sc.nextInt();
+            int mouth = sc.nextInt();
+            int day = sc.nextInt();
+            if(mouth == 1){
+                System.out.println(day);
+            }else{
+                int res = 0;
+                Map<Integer,Integer> map = new HashMap<>();
+                map.put(1,31);
+                if(isLeapyear(year)){
+                    map.put(2,29);
+                }else{
+                    map.put(2,28);
+                }
+                map.put(3,31);
+                map.put(4,30);
+                map.put(5,31);
+                map.put(6,30);
+                map.put(7,31);
+                map.put(8,31);
+                map.put(9,30);
+                map.put(10,31);
+                map.put(11,30);
+                map.put(12,31);
+
+                for(int i=1; i<mouth;i++){
+                    res += map.get(i);
+                }
+                res += day;
+                System.out.println(res);
+            }
+        }
+    }
+
+    public static boolean isLeapyear(int year){
+        if(year % 100 != 0 && year % 4 == 0){
+            return true;
+        }else if(year % 100 == 0 && year % 400 == 0){
+            return true;
+        }
+        return false;
+    }
+}
+
