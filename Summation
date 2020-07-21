@@ -1,0 +1,77 @@
+/**
+ * 输入两个整数 n 和 m，从数列1，2，3…n 中随意取几个数，使其和等于 m，要求将其中所有的可能组合列出来。
+ * <p>
+ * 输入描述：
+ * 每个测试输入包含2个整数，n 和 m
+ * <p>
+ * 输出描述：
+ * 按每个组合的字典序排列输出，每行输出一种组合
+ * <p>
+ * 示例1
+ * 输入
+ * 5 5
+ * 输出
+ * 1 4
+ * 2 3
+ * 5
+ * <p>
+ * 【题目解析】：
+ * <p>
+ * 基于递归实现 dfs（深度优先搜索）即可，这是一个比较典型的背包问题。
+ * <p>
+ * 【解题思路】：
+ * <p>
+ * ① 假设问题的解为 F(n, m)，可分解为两个子问题 F(n-1, m-n) 和 F(n-1, m)。
+ * <p>
+ * ② 对这两个问题递归求解，求解过程中，如果找到了符合条件的数字组合，则打印出来。例如
+ * 1, 2, 3, 4, 5，求有多少种组合和为 5。
+ * <p>
+ * ③ 对于 1 这个元素来说，可能会放到结果中，也可能不放到结果中。
+ * <p>
+ * 如果放到结果中，就相当于求 2, 3, 4, 5 中取若干个数字和为 4（即为 F(n-1, m-n)）
+ * 如果不放到结果中，就相当于求 2, 3, 4, 5 中取若干个数字和为 5（即为F(n-1, m)）
+ */
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+
+public class Summation {
+
+    //res用于保存结果集
+    public static ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+    //list输出的是每一行的结果
+    public static ArrayList<Integer> list = new ArrayList<>();
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        while(sc.hasNext()) {
+            int n = sc.nextInt();
+            int m = sc.nextInt();
+
+            dfs(1, m, n);
+
+            //打印结果集
+            for(ArrayList<Integer> l : res) {
+                int i = 0;
+                for(; i < l.size()-1; i++) {
+                    System.out.print(l.get(i) + " ");
+                }
+                System.out.println(l.get(i));
+            }
+        }
+    }
+
+    //核心逻辑在此：求n个数中和为m的数的集合
+    public static void dfs(int index, int count, int n) {
+        if(count == 0) {
+            res.add(new ArrayList<>(list));
+        }else {
+            for(int i = index; i <= count && i <= n; i++) {
+                list.add(i);
+                dfs(i+1, count-i, n);
+                list.remove(list.size()-1);
+            }
+        }
+    }
+}
