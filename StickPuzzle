@@ -1,0 +1,82 @@
+/**
+ * 有一个由很多木棒构成的集合，每个木棒有对应的长度，请问能否用集合中的这些木棒以某个顺序首尾相连构成一个面积大于 0的简单多边形且所有木棒都要用上，简单多边形即不会自交的多边形。初始集合是空的，有两种操作，要么给集合添加一个长度为 L的木棒，要么删去集合中已经有的某个木棒。每次操作结束后你都需要告知是否能用集合中的这些木棒构成一个简单多形。
+ * 输入描述：
+ *
+ * 每组测试用例仅包含一组数据，每组数据第一行为一个正整数 n 表示操作的数量(1 ≤ n ≤ 50000) ， 接下来有
+ * n行，每行第一个整数为操作类型 i (i ∈ {1,2})，第二个整数为一个长度 L(1 ≤ L ≤ 1,000,000,000)。如果 i=1 代
+ * 表在集合内插入一个长度为 L 的木棒，如果 i=2 代表删去在集合内的一根长度为 L 的木棒。输入数据保证删
+ * 除时集合中必定存在长度为 L 的木棒，且任意操作后集合都是非空的。
+ * 输出描述：
+ * 对于每一次操作结束有一次输出，如果集合内的木棒可以构成简单多边形，输出 "Yes" ，否则输出 "No"。
+ * 示例1:
+ * 输入
+ * 5
+ *
+ * 1 1
+ * 1 1
+ * 1 1
+ * 2 1
+ * 1 2
+ * 输出
+ * No
+ * No
+ * Yes
+ * No
+ * No
+ *
+ * 解题思路：首先，要围成一个面积大于1的n边形，其条件就是：任意n条边之和大于另一条边。在这里，
+ * 我用了一个二维数组来存放输入的数据，用ArrayList来存放木棒的长度，然后如果要加木棒，
+ * 就调用ArrayList的Add操作，要删除木棒就调用ArrayList的remove操作。然后在判断能否构成
+ * 一个多边形时，先给ArrayList排序，然后n-1条小边之和如果大于最大边，就能拼出多边形，否则就不能。
+ */
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
+
+
+public class StickPuzzle {
+
+    public static boolean canForm(ArrayList<Integer> l) {
+        Collections.sort(l); //给 l 排序
+        int sum = 0;
+        for (int i = 0; i < l.size() - 1; i++) {
+            sum += l.get(i);
+        }
+        if (sum > l.get(l.size() - 1)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static void save(int[][] arr, int n) {
+        ArrayList<Integer> l = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            // 二维数组中第一列存放的是对应操作，如果等于一，就加一根木棍，否则减一根木棍
+            if (arr[i][0] == 1) {
+                l.add(arr[i][1]);
+            } else {
+                l.remove(new Integer(arr[i][1]));
+            }
+
+            if (canForm(l)) {
+                System.out.println("Yes");
+            } else {
+                System.out.println("No");
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        while (s.hasNext()) {
+            int n = s.nextInt();
+            int[][] arr = new int[n][2];
+            for (int i = 0; i < n; i++) {
+                arr[i][0] = s.nextInt();
+                arr[i][1] = s.nextInt();
+            }
+            save(arr, n);
+        }
+    }
+}
