@@ -1,0 +1,74 @@
+import java.util.ArrayList;
+
+/**
+ * 题目描述
+ * 输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下4 X 4矩阵： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.
+ *
+ * 解题思路
+ * 定义一个初始的左上角 和右下角 该左上角和右下角会形成这个矩形最外面的一圈
+ * 这时我们打印最外面一圈 下一步 找到去除最外面一圈后的左上角和右下角 继续打印这2个点形成的一圈 接着循环处理
+ *
+ * //         1  2  3  4
+ * //         5  6  7  8
+ * //         9 10 11 12
+ * //        13 14 15 16
+ * 1
+ * 2
+ * 3
+ * 4
+ * 比如我们先找到 1 和 16 然后打印 1,2,3,4,8,12,16,15,14,13,9,5,1
+ * 接着找到 6 和 11 然后打印6,7,11,10
+ *
+ * 注意边界情况 比如左上角的点为0,0 右下角的点为(4,0) 此时只有一列 打印这列
+ * 注意边界情况 比如左上角的点为0,0 右下角的点为 (0,4) 此时只有一行 打印这行
+ * 还有右下角不能在左上角上方
+ */
+public class printMatrix {
+
+    public ArrayList<Integer> printMatrix(int [][] matrix) {
+        int lr = 0;
+        int lc = 0;
+        int rr = matrix.length - 1;
+        int rc = matrix[0].length - 1;
+        ArrayList<Integer> list = new ArrayList();
+        // 处理当前左上角和右下角形成一圈情况 处理完后 左上角向下 右下角向上 继续处理下一圈
+        while(lr <= rr && lc <= rc) {
+            whirl(matrix, lr++, lc++, rr--, rc--, list);
+        }
+        return list;
+    }
+    // 打印左上角和右下角形成一圈的情况
+    private void whirl(int[][] array, int lr, int lc, int rr, int rc, ArrayList<Integer> list) {
+        // 只有一行
+        if(lr == rr) {
+            for(int i = lc; i <= rc; i++) {
+                list.add(array[lr][i]);
+            }
+            return;
+        }
+        // 只有一列
+        if(lc == rc) {
+            for(int i = lr; i <= rr; i++) {
+                list.add(array[i][lc]);
+            }
+            return;
+        }
+        // 常规情况
+        // 打印第一行
+        for(int i = lc; i <= rc; i++) {
+            list.add(array[lr][i]);
+        }
+        // 打印最后一列
+        for(int i = lr + 1; i <= rr; i++) {
+            list.add(array[i][rc]);
+        }
+        // 打印最后一行
+        for(int i = rc - 1; i >= lc ; i--) {
+            list.add(array[rr][i]);
+        }
+        // 打印第一列
+        for(int i = rr -1; i >= lr + 1; i--) {
+            list.add(array[i][lc]);
+        }
+    }
+}
