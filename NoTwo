@@ -1,0 +1,27 @@
+import java.util.Scanner;
+
+public class NoTwo {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int m = sc.nextInt();
+        int n = sc.nextInt();
+        int res = 0;
+        int[][] arr = new int[1000][1000];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (arr[i][j] == 0) {
+                    res++;
+                    if (i + 2 < m) {
+                        arr[i + 2][j] = -1;
+                    }
+                    if (j + 2 < n) {
+                        arr[i][j + 2] = -1;
+                    }
+                }
+            }
+        }
+        System.out.println(res);
+    }
+}
+
